@@ -5,7 +5,11 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
+#if VER_GEQ_14 || VER_GEQ_16
+using ScriptPortal.Vegas;
+#else
 using Sony.Vegas;
+#endif
 using System.Diagnostics;
 
 #region MidiFile.cs
