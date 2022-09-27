@@ -388,6 +388,7 @@ public class EntryPoint {
 			foreach (MidiParser.MidiEvent midi_event in midi_file.Tracks.MidiEvents) {
 				switch (midi_event.Type) {
 					case (byte)MidiParser.MidiEventType.NoteOn:
+					case (byte)MidiParser.MidiEventType.NoteOff:
 						// arg1 = channel
 						// arg2 = note
 						// arg3 = velocity (todo: implement!)
@@ -395,11 +396,11 @@ public class EntryPoint {
 							copied_events[i].Length = Timecode.FromMilliseconds(midi_event.Time - copied_events[i].Start.ToMilliseconds());
 							copied_events.RemoveAt(i);
 						}
+						if (midi_event.Type == MidiParser.MidiEventType.NoteOff)
+							break;
 						foreach (TrackEvent track_event in original_events[0].Group) {
 							copied_events.Add(track_event.Copy(track_event.Track, Timecode.FromMilliseconds(midi_event.Time)));
 						}
-						break;
-					case (byte)MidiParser.MidiEventType.NoteOff:
 						break;
 					default:
 						break;
